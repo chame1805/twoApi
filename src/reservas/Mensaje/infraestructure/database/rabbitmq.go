@@ -15,25 +15,25 @@ type RabbitMQ struct {
 	queue   amqp091.Queue
 }
 
-// NewRabbitMQ inicializa la conexión con RabbitMQ
+
 func NewRabbitMQ() (*RabbitMQ, error) {
-	// Cargar variables de entorno desde .env
+	
 	err := godotenv.Load()
 	if err != nil {
 		log.Println("No se pudo cargar el archivo .env, usando variables del sistema")
 	}
 
-	// Obtener las variables de entorno
+	
 	user := os.Getenv("RABBITMQ_USER")
 	password := os.Getenv("RABBITMQ_PASSWORD")
 	host := os.Getenv("RABBITMQ_HOST")
 	port := os.Getenv("RABBITMQ_PORT")
 
-	// Construir la URL de conexión
+	
 	rabbitURL := fmt.Sprintf("amqp://%s:%s@%s:%s/", user, password, host, port)
 	log.Println("Conectando a RabbitMQ en:", rabbitURL)
 
-	// Conectar a RabbitMQ
+
 	conn, err := amqp091.Dial(rabbitURL)
 	if err != nil {
 		log.Println("Error al conectar con RabbitMQ:", err)
@@ -56,7 +56,7 @@ func NewRabbitMQ() (*RabbitMQ, error) {
 	return &RabbitMQ{conn: conn, channel: ch, queue: q}, nil
 }
 
-// PublishMessage publica el mensaje en RabbitMQ
+
 func (r *RabbitMQ) PublishMessage(message string) error {
 	err := r.channel.Publish(
 		"", r.queue.Name, false, false,

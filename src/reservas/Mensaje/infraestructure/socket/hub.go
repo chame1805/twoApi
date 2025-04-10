@@ -16,7 +16,6 @@ type Socket struct {
 	mu         sync.Mutex
 }
 
-// NewHub crea e inicializa un nuevo Hub.
 func NewHub() *Socket {
 	return &Socket{
 		clients:    make(map[*websocket.Conn]bool),
@@ -26,7 +25,6 @@ func NewHub() *Socket {
 	}
 }
 
-// Run inicia el ciclo del hub, escuchando los canales de registro, baja y broadcast.
 func (h *Socket) Run() {
 	for {
 		select {
